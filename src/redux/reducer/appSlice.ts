@@ -21,11 +21,16 @@ const appSlice = createSlice({
         state.favorites.push(action.payload);
       }
     },
+    deleteFavorite(state, action: PayloadAction<any>) {
+      if (state.favorites !== null) {
+        state.favorites = state.favorites.filter(item => item.trackId !== action.payload);
+      }
+    },
     setFcm(state, action: PayloadAction<string | null>) {
       state.fcm = action.payload;
     },
   },
 });
 
-export const { addFavorite,setFcm } = appSlice.actions;
+export const { addFavorite, setFcm, deleteFavorite } = appSlice.actions;
 export default appSlice.reducer;

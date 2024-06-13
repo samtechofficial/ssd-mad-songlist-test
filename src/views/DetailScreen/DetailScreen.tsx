@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { formateDate } from "../../helper/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { addFavorite } from "../../redux/reducer/appSlice";
+import { addFavorite, deleteFavorite } from "../../redux/reducer/appSlice";
 
 const DetailScreen = (props: any) => {
     const dispatch = useDispatch();
@@ -27,8 +27,11 @@ const DetailScreen = (props: any) => {
     }
 
     const onAddFavorite = (params: any) => {
-        dispatch(addFavorite(params))
-        setFavorite(true)
+        if(isFavorite){
+            dispatch(deleteFavorite(params.trackId))
+        }else{
+            dispatch(addFavorite(params))
+        }
     }
 
     useEffect(() => {

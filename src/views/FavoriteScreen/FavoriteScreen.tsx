@@ -2,12 +2,14 @@ import React, { useEffect, useState, useMemo } from "react";
 import { View, Text, SafeAreaView, ScrollView, Image, FlatList, TouchableOpacity } from "react-native";
 import { COLORS } from "../../helper/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import { deleteFavorite } from "../../redux/reducer/appSlice";
 
 const FavoriteScreen = (props: any) => {
     const favorites = useSelector((state: RootState) => state.auth.favorites);
     const [favoriteList, setFavoriteList] = useState<any>(null);
+    const dispatch = useDispatch()
 
     const onBack = () => {
         props.navigation.navigate('HomeScreen')
@@ -22,6 +24,10 @@ const FavoriteScreen = (props: any) => {
 
     const onOpenDetail = (params: any) => {
         props.navigation.navigate('DetailScreen', params)
+    }
+
+    const onRemove = (params: any) => {
+        dispatch(deleteFavorite(params.trackId))
     }
 
     return (
@@ -41,6 +47,11 @@ const FavoriteScreen = (props: any) => {
                                 <Text style={{ color: '#555', fontSize: 13 }}>{item.artistName}</Text>
                                 <Text style={{ color: '#888', marginTop: 3, fontSize: 13 }} numberOfLines={3}>{item.shortDescription}</Text>
                             </View>
+                            <TouchableOpacity activeOpacity={0.8} onPress={() => onRemove(item)}>
+                                <View style={{ height: 75, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 10 }}>
+                                    <Icon name="remove" size={30} color={COLORS.PRIMARY} />
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </TouchableOpacity>
                 )}
