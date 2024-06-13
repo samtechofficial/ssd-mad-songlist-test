@@ -2,10 +2,11 @@ import React, { useEffect, useState, useMemo } from "react";
 import { View, Text, SafeAreaView, ScrollView, Image, FlatList } from "react-native";
 import { COLORS } from "../../helper/colors";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { formateDate } from "../../helper/utils";
+import { formateDate, generateRandomString } from "../../helper/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { addFavorite, deleteFavorite } from "../../redux/reducer/appSlice";
+import { notification } from "../../helper/Notification";
 
 const DetailScreen = (props: any) => {
     const dispatch = useDispatch();
@@ -29,9 +30,18 @@ const DetailScreen = (props: any) => {
     const onAddFavorite = (params: any) => {
         if(isFavorite){
             dispatch(deleteFavorite(params.trackId))
+            handleNotification(params.collectionName,'Successfully removed '+params.collectionName)
         }else{
             dispatch(addFavorite(params))
+            handleNotification(params.collectionName,'Successfully added '+params.collectionName)
         }
+    }
+
+    const handleNotification=(title: string,message: string)=>{
+        const id =generateRandomString(10)
+        notification.configure();
+        notification.createChannel(id);
+        notification.sendNotification(id,title,message);
     }
 
     useEffect(() => {

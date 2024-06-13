@@ -4,13 +4,14 @@ import { ActivityIndicator, SafeAreaView, Text, View } from 'react-native';
 import StatusBar from '../../components/StatusBar';
 import { COLORS } from '../../helper/colors';
 import Icon from 'react-native-vector-icons/AntDesign';
+import RequestPermission from '../../components/RequestPermission';
 
 const SplasScreen = () => {
   const navigation: any = useNavigation();
 
   useEffect(() => {
    setTimeout(()=>{
-    navigation.navigate('HomeScreen')
+    navigation.replace('HomeScreen')
    },1000)
   }, []);
   
@@ -18,6 +19,7 @@ const SplasScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar bgColor={COLORS.PRIMARY} />
+      <RequestPermission/>
       <View
         style={{
           flex: 1,
